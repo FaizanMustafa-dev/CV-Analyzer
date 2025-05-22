@@ -7,7 +7,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from fpdf import FPDF
 import os
 
-# Function to open PDF and extract text
+
 def extract_text_from_pdf(pdf_path):
     text = ""
     try:
@@ -18,7 +18,7 @@ def extract_text_from_pdf(pdf_path):
         messagebox.showerror("Error", f"Could not read file {pdf_path}\n{str(e)}")
     return text
 
-# Function to calculate score based on extracted data
+
 def calculate_score(text):
     experience_score = 5 if "years" in text else 0
     skills = ["Python", "Machine Learning", "Data Analysis", "Communication"]
@@ -27,7 +27,7 @@ def calculate_score(text):
     total_score = experience_score + skill_score + certification_score
     return experience_score, skill_score, certification_score, total_score
 
-# Class for the CV Analyzer Application
+
 class CVAnalyzerApp:
     def __init__(self, root):
         self.root = root
@@ -67,7 +67,7 @@ class CVAnalyzerApp:
         self.result_frame.pack(fill="both", expand=True, padx=5, pady=5)
 
         self.cv_files = []
-        self.score_threshold = 10  # Set a threshold for CV passing score
+        self.score_threshold = 10  
 
     def select_files(self):
         self.cv_files = filedialog.askopenfilenames(filetypes=[("PDF Files", "*.pdf")])
@@ -123,7 +123,7 @@ class CVAnalyzerApp:
                                      fg="#f1c40f", bg="#2b2b2b", pady=20)
         best_cv_label.grid(row=len(df) + 2, column=0, columnspan=len(header), pady=10)
 
-        # Plotting scores
+     
         fig, axs = plt.subplots(1, 3, figsize=(15, 4), facecolor='#2b2b2b')
 
         for i, row in df.iterrows():
@@ -152,7 +152,7 @@ class CVAnalyzerApp:
         canvas.draw()
         canvas.get_tk_widget().grid(row=len(df) + 4, column=0, columnspan=len(header), pady=20)
 
-        # Save figures
+        
         self.graph_file = "cv_analysis_graphs.png"
         fig.savefig(self.graph_file)
 
@@ -164,12 +164,12 @@ class CVAnalyzerApp:
         pdf.cell(0, 10, 'CV Analysis Report', ln=True, align='C')
         pdf.set_font("Arial", size=12)
 
-        # Add overall trends summary
+       
         summary = "Summary of Insights:\n"
         summary += "Most candidates excelled in technical skills but lacked certifications.\n"
         pdf.multi_cell(0, 10, summary)
 
-        # Add CV details
+       
         pdf.set_font("Arial", 'B', 12)
         pdf.cell(0, 10, 'Detailed Results:', ln=True)
         pdf.set_font("Arial", size=12)
@@ -177,7 +177,6 @@ class CVAnalyzerApp:
             pdf.cell(0, 10, f"File: {row['File']}, Total Score: {row['Total Score']}, Status: {row['Status']}", ln=True)
         pdf.cell(0, 10, '', ln=True)
 
-        # Add graphs
         pdf.image(self.graph_file, x=10, y=None, w=180)
         pdf.output("cv_analysis_report.pdf")
         messagebox.showinfo("Success", "Report has been exported to PDF successfully.")
@@ -186,7 +185,7 @@ class CVAnalyzerApp:
         self.df.to_excel("cv_analysis_results.xlsx", index=False)
         messagebox.showinfo("Success", "Results have been exported to Excel successfully.")
 
-# Main application run
+
 if __name__ == "__main__":
     root = tk.Tk()
     app = CVAnalyzerApp(root)
